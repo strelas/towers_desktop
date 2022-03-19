@@ -19,11 +19,12 @@ class TowersBoardController extends Cubit<TowersState> {
       final width = 0.5 + 0.5 * (index + 1) / count;
       final height = 1.0 + 0.5 * (index + 1 - count / 2) / count;
       return RingModel(
-          color: colors[index],
-          height: height,
-          width: width,
-          selected: false,
-          ring: Ring(index));
+        color: colors[index],
+        height: height,
+        width: width,
+        selected: false,
+        ring: Ring(index),
+      );
     });
     _ringsCount = count;
     emit(TowersState([Queue.of(rings), Queue(), Queue()]));
@@ -31,7 +32,8 @@ class TowersBoardController extends Cubit<TowersState> {
 
   select(int at) {
     final copy = state.copy();
-    final index = state.board.indexWhere((element) => element.isNotEmpty && element.first.selected);
+    final index = state.board
+        .indexWhere((element) => element.isNotEmpty && element.first.selected);
     if (index == -1) {
       final toSelect = copy.board[at].removeFirst();
       copy.board[at].addFirst(toSelect.copyWith(selected: true));
