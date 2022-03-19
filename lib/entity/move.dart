@@ -3,6 +3,4 @@ class Move {
   final int to;
 
   const Move(this.from, this.to);
-
-  Move reversed() => Move(to, from);
 }

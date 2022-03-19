@@ -9,7 +9,7 @@ import 'package:towers_desktop/screens/game/board/state.dart';
 class TowersBoardController extends Cubit<TowersState> {
   int? _ringsCount;
   int get ringsCount => _ringsCount ?? 0;
-  Function _onMoveDone;
+  final Function _onMoveDone;
 
   TowersBoardController(this._onMoveDone)
       : super(TowersState(List.generate(3, (index) => Queue())));
