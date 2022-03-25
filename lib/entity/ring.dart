@@ -18,9 +18,4 @@ class Ring {
 
   @override
   int get hashCode => weight.hashCode;
-
-  @override
-  String toString() {
-    return "Ring{weight = $weight}";
-  }
 }

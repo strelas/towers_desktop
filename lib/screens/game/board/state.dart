@@ -59,6 +59,25 @@ class RingModel {
       required this.selected,
       required this.ring});
 
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is RingModel &&
+          runtimeType == other.runtimeType &&
+          color == other.color &&
+          height == other.height &&
+          width == other.width &&
+          selected == other.selected &&
+          ring == other.ring;
+
+  @override
+  int get hashCode =>
+      color.hashCode ^
+      height.hashCode ^
+      width.hashCode ^
+      selected.hashCode ^
+      ring.hashCode;
+
   RingModel copyWith({bool? selected}) => RingModel(
         color: color,
         height: height,
