@@ -57,7 +57,7 @@ class TowersBoardController extends Cubit<TowersState> {
             selected: false,
           ),
     );
-    return copy;
+    emit(copy);
   }
 
   static const colors = <Color>[

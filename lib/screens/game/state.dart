@@ -17,6 +17,16 @@ abstract class GamePageState {
 class GamePageStatePreparing implements GamePageState {
   final int countOfRings;
 
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is GamePageStatePreparing &&
+          runtimeType == other.runtimeType &&
+          countOfRings == other.countOfRings;
+
+  @override
+  int get hashCode => countOfRings.hashCode;
+
   const GamePageStatePreparing._(this.countOfRings);
 }
 
@@ -24,6 +34,21 @@ class GamePageStateStarted implements GamePageState {
   final bool isAutoMovesEnabled;
   final bool canStartAutoMoves;
   final int movesCount;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is GamePageStateStarted &&
+          runtimeType == other.runtimeType &&
+          isAutoMovesEnabled == other.isAutoMovesEnabled &&
+          canStartAutoMoves == other.canStartAutoMoves &&
+          movesCount == other.movesCount;
+
+  @override
+  int get hashCode =>
+      isAutoMovesEnabled.hashCode ^
+      canStartAutoMoves.hashCode ^
+      movesCount.hashCode;
 
   const GamePageStateStarted._({
     required this.canStartAutoMoves,
