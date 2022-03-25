@@ -8,6 +8,7 @@ void main() {
     final equal = GamePageState.preparing(1);
     expect(actual, equal);
     expect(actual.hashCode, equal.hashCode);
+    expect(actual.toString(), equal.toString());
 
     for (int i = 2; i < 10; i++) {
       expect(actual == GamePageState.preparing(i), false);
@@ -29,6 +30,7 @@ void main() {
 
     expect(actual, equal);
     expect(actual.hashCode, equal.hashCode);
+    expect(actual.toString(), equal.toString());
 
     final notEqual1 = GamePageState.started(isAutoMovesEnabled: false, canStartAutoMoves: false, movesCount: 1);
     final notEqual2 = GamePageState.started(isAutoMovesEnabled: false, canStartAutoMoves: true, movesCount: 0);

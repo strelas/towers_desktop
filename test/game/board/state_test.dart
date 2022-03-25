@@ -22,6 +22,7 @@ void main() {
     ]);
     expect(actual == equals, true);
     expect(actual.hashCode, equals.hashCode);
+    expect(actual.toString(), equals.toString());
 
     final notEquals = TowersState([
       Queue.from(const [Ring(2), Ring(3)].map((e) => RingModel(

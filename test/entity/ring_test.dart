@@ -29,6 +29,7 @@ void main() {
 
     expect(actual, equal);
     expect(actual.hashCode, equal.hashCode);
+    expect(actual.toString(), equal.toString());
 
     const notEqual1 = Ring(1);
     const notEqual2 = Ring(2);
