@@ -73,10 +73,10 @@ class TowersBoardController extends Cubit<TowersState> {
     emit(copy);
   }
 
-  static const colors = <Color>[
+  static final colors = <Color>[
     Colors.blueAccent,
     Colors.blue,
-    Colors.blueGrey,
+    Colors.blue.shade600,
     Colors.lightBlue,
     Colors.lightBlueAccent,
     Colors.cyan,
