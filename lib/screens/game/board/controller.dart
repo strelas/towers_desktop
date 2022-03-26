@@ -39,7 +39,14 @@ class TowersBoardController extends Cubit<TowersState> {
       copy.board[at].addFirst(toSelect.copyWith(selected: true));
       emit(copy);
     } else {
-      move(Move(index, at));
+      if (index != at) {
+        move(Move(index, at));
+      } else {
+        final toSelect = copy.board[at].removeFirst();
+        copy.board[at].addFirst(toSelect.copyWith(selected: false));
+        emit(copy);
+      }
+
     }
   }
 
