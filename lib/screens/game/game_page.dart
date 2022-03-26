@@ -8,11 +8,24 @@ import 'package:towers_desktop/screens/game/state.dart';
 class GamePage extends StatefulWidget {
   static const counterKey = Key("counterKey");
   static const switchKey = Key("switchKey");
+  static const pageKey = Key("gamePageKey");
 
   const GamePage({Key? key}) : super(key: key);
 
   @override
   State<GamePage> createState() => _GamePageState();
+
+  static void open(BuildContext context) {
+    final cubit = GameCubit();
+    Navigator.of(context).pushReplacement(
+      PageRouteBuilder(
+        pageBuilder: (context, _, __) => MultiBlocProvider(
+          providers: cubit.providers,
+          child: const GamePage(),
+        ),
+      ),
+    );
+  }
 }
 
 class _GamePageState extends State<GamePage> {
@@ -32,6 +45,7 @@ class _GamePageState extends State<GamePage> {
         }
 
         return const Scaffold(
+          key: GamePage.pageKey,
           body: Center(
             child: Text("Ошибка состояния"),
           ),
@@ -42,6 +56,7 @@ class _GamePageState extends State<GamePage> {
 
   Widget preparingBody(GamePageStatePreparing state) {
     return Scaffold(
+      key: GamePage.pageKey,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -79,6 +94,7 @@ class _GamePageState extends State<GamePage> {
 
   Widget startedBody(GamePageStateStarted state) {
     return Scaffold(
+      key: GamePage.pageKey,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
         child: Center(

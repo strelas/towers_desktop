@@ -38,6 +38,7 @@ dependencies:
   collection: ^1.15.0
   flutter_bloc: ^8.0.1
   counter: ^0.2.2
+  golden_toolkit: ^0.13.0
 
 dev_dependencies:
   flutter_test:
