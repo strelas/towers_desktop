@@ -8,6 +8,7 @@ import 'package:towers_desktop/screens/game/board/state.dart';
 
 class TowersBoardController extends Cubit<TowersState> {
   int? _ringsCount;
+
   int get ringsCount => _ringsCount ?? 0;
   final Function _onMoveDone;
 
@@ -15,17 +16,20 @@ class TowersBoardController extends Cubit<TowersState> {
       : super(TowersState(List.generate(3, (index) => Queue())));
 
   startGameWith(int count) {
-    final rings = List.generate(count, (index) {
-      final width = 0.5 + 0.5 * (index + 1) / count;
-      final height = 1.0 + 0.5 * (index + 1 - count / 2) / count;
-      return RingModel(
-        color: colors[index],
-        height: height,
-        width: width,
-        selected: false,
-        ring: Ring(index),
-      );
-    });
+    final rings = List.generate(
+      count,
+      (index) {
+        final width = 0.5 + 0.5 * (index + 1) / count;
+        final height = 1.0 + 0.5 * (index + 1 - count / 2) / count;
+        return RingModel(
+          color: colors[index],
+          height: height,
+          width: width,
+          selected: false,
+          ring: Ring(index),
+        );
+      },
+    );
     _ringsCount = count;
     emit(TowersState([Queue.of(rings), Queue(), Queue()]));
   }
@@ -35,6 +39,9 @@ class TowersBoardController extends Cubit<TowersState> {
     final index = state.board
         .indexWhere((element) => element.isNotEmpty && element.first.selected);
     if (index == -1) {
+      if (state.board[at].isEmpty) {
+        return;
+      }
       final toSelect = copy.board[at].removeFirst();
       copy.board[at].addFirst(toSelect.copyWith(selected: true));
       emit(copy);
@@ -46,7 +53,6 @@ class TowersBoardController extends Cubit<TowersState> {
         copy.board[at].addFirst(toSelect.copyWith(selected: false));
         emit(copy);
       }
-
     }
   }
 

@@ -6,6 +6,9 @@ import 'package:towers_desktop/screens/game/cubit.dart';
 import 'package:towers_desktop/screens/game/state.dart';
 
 class GamePage extends StatefulWidget {
+  static const counterKey = Key("counterKey");
+  static const switchKey = Key("switchKey");
+
   const GamePage({Key? key}) : super(key: key);
 
   @override
@@ -28,7 +31,11 @@ class _GamePageState extends State<GamePage> {
           return startedBody(state);
         }
 
-        return Container();
+        return const Scaffold(
+          body: Center(
+            child: Text("Ошибка состояния"),
+          ),
+        );
       },
     );
   }
@@ -45,6 +52,7 @@ class _GamePageState extends State<GamePage> {
               height: 10,
             ),
             Counter(
+              key: GamePage.counterKey,
               min: 1,
               max: 9,
               initial: state.countOfRings,
@@ -71,55 +79,59 @@ class _GamePageState extends State<GamePage> {
 
   Widget startedBody(GamePageStateStarted state) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          children: [
-            SizedBox(
-              height: 100,
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Center(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const Text("Включить автоматические ходы"),
-                          Opacity(
-                            opacity: state.isAutoMovesEnabled ? 1.0 : 0.4,
-                            child: Switch(
-                              value: state.isAutoMovesEnabled,
-                              onChanged: (value) {
-                                if (state.canStartAutoMoves) {
-                                  if (value) {
-                                    cubit.enableAutoMoves();
-                                  } else {
-                                    cubit.disableAutoMoves();
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+        child: Center(
+          child: Column(
+            children: [
+              SizedBox(
+                height: 100,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Center(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Text("Включить автоматические ходы"),
+                            Opacity(
+                              opacity: state.isAutoMovesEnabled ? 1.0 : 0.4,
+                              child: Switch(
+                                key: GamePage.switchKey,
+                                value: state.isAutoMovesEnabled,
+                                onChanged: (value) {
+                                  if (state.canStartAutoMoves) {
+                                    if (value) {
+                                      cubit.enableAutoMoves();
+                                    } else {
+                                      cubit.disableAutoMoves();
+                                    }
                                   }
-                                }
-                              },
+                                },
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  Expanded(
-                    child: Center(
-                        child: Text("Количество ходов: ${state.movesCount}")),
-                  ),
-                  Expanded(
-                    child: Center(
-                      child: TextButton(
-                        onPressed: () => cubit.startNewGame(),
-                        child: const Text("Начать новую игру"),
+                    Expanded(
+                      child: Center(
+                          child: Text("Количество ходов: ${state.movesCount}")),
+                    ),
+                    Expanded(
+                      child: Center(
+                        child: TextButton(
+                          onPressed: () => cubit.startNewGame(),
+                          child: const Text("Начать новую игру"),
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            const Expanded(child: Towers()),
-          ],
+              const Expanded(child: Towers()),
+            ],
+          ),
         ),
       ),
     );

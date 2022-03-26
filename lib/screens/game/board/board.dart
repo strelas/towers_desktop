@@ -5,6 +5,10 @@ import 'package:towers_desktop/screens/game/board/controller.dart';
 import 'package:towers_desktop/screens/game/board/state.dart';
 
 class Towers extends StatelessWidget {
+  static const firstColumnKey = Key("firstColumnKey");
+  static const secondColumnKey = Key("secondColumnKey");
+  static const thirdColumnKey = Key("thirdColumnKey");
+
   const Towers({Key? key}) : super(key: key);
 
   @override
@@ -75,48 +79,36 @@ class Towers extends StatelessWidget {
     const duration = Duration(seconds: 1);
     result.addAll(state.board[0].mapIndexed((index, element) {
       return AnimatedPositioned(
+        curve: Curves.linearToEaseOut,
         key: Key("Ring ${element.ring.weight}"),
         left: 0,
         width: maxWidth,
-        height: element.height*maxHeight,
-        bottom:
-            state.board[0].skip(index+1).fold<double>(
-                  0.0,
-                  (previousValue, element) =>
-                      previousValue + element.height * maxHeight,
-                ),
+        height: element.height * maxHeight,
+        bottom: getBottomPadding(index, maxHeight, state.board[0].toList()),
         child: buildRing(element, maxWidth, maxHeight),
         duration: duration,
       );
     }));
     result.addAll(state.board[1].mapIndexed((index, element) {
       return AnimatedPositioned(
+        curve: Curves.linearToEaseOut,
         key: Key("Ring ${element.ring.weight}"),
         left: maxWidth,
         width: maxWidth,
-        height: element.height*maxHeight,
-        bottom:
-            state.board[1].skip(index+1).fold<double>(
-                  0.0,
-                  (previousValue, element) =>
-                      previousValue + element.height * maxHeight,
-                ),
+        height: element.height * maxHeight,
+        bottom: getBottomPadding(index, maxHeight, state.board[1].toList()),
         child: buildRing(element, maxWidth, maxHeight),
         duration: duration,
       );
     }));
     result.addAll(state.board[2].mapIndexed((index, element) {
       return AnimatedPositioned(
+        curve: Curves.linearToEaseOut,
         key: Key("Ring ${element.ring.weight}"),
-        left: maxWidth*2,
+        left: maxWidth * 2,
         width: maxWidth,
-        height: element.height*maxHeight,
-        bottom:
-            state.board[2].skip(index+1).fold<double>(
-                  0.0,
-                  (previousValue, element) =>
-                      previousValue + element.height * maxHeight,
-                ),
+        height: element.height * maxHeight,
+        bottom: getBottomPadding(index, maxHeight, state.board[2].toList()),
         child: buildRing(element, maxWidth, maxHeight),
         duration: duration,
       );
@@ -131,8 +123,12 @@ class Towers extends StatelessWidget {
         height: maxHeight * model.height,
         decoration: BoxDecoration(
           color: model.color,
-          border:
-              model.selected ? Border.all(color: Colors.green, width: 5) : null,
+          border: model.selected
+              ? Border.all(
+                  color: Colors.green,
+                  width: 5,
+                )
+              : null,
           borderRadius: BorderRadius.circular(maxHeight * model.height / 2),
         ),
       ),
@@ -148,6 +144,7 @@ class Towers extends StatelessWidget {
           child: Row(
             children: [
               Expanded(
+                key: firstColumnKey,
                 child: GestureDetector(
                   onTap: () {
                     context.read<TowersBoardController>().select(0);
@@ -160,6 +157,7 @@ class Towers extends StatelessWidget {
                 ),
               ),
               Expanded(
+                key: secondColumnKey,
                 child: GestureDetector(
                   onTap: () {
                     context.read<TowersBoardController>().select(1);
@@ -172,6 +170,7 @@ class Towers extends StatelessWidget {
                 ),
               ),
               Expanded(
+                key: thirdColumnKey,
                 child: GestureDetector(
                   onTap: () {
                     context.read<TowersBoardController>().select(2);
@@ -189,4 +188,11 @@ class Towers extends StatelessWidget {
       ],
     );
   }
+
+  double getBottomPadding(int index, double maxHeight, List<RingModel> rings) =>
+      rings.skip(index + 1).fold<double>(
+            0.0,
+            (previousValue, element) =>
+                previousValue + element.height * maxHeight,
+          );
 }

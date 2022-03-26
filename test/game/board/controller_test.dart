@@ -38,9 +38,35 @@ void main() {
       ),
       true,
     );
+
     expect(state.board[1].isEmpty, true);
     expect(state.board[2].isEmpty, true);
-
+    controller.select(0);
+    state = controller.state;
+    expect(
+      const ListEquality().equals(
+        state.board[0].map((e) => e.selected).toList(),
+        [
+          false,
+          false,
+          false,
+        ],
+      ),
+      true,
+    );
+    controller.select(0);
+    state = controller.state;
+    expect(
+      const ListEquality().equals(
+        state.board[0].map((e) => e.selected).toList(),
+        [
+          true,
+          false,
+          false,
+        ],
+      ),
+      true,
+    );
     controller.select(1);
     state = controller.state;
     expect(
