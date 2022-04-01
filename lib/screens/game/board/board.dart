@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:towers_desktop/screens/game/board/controller.dart';
 import 'package:towers_desktop/screens/game/board/state.dart';
+import 'package:towers_desktop/utils.dart';
 
 class Towers extends StatelessWidget {
   static const firstColumnKey = Key("firstColumnKey");
@@ -76,7 +77,6 @@ class Towers extends StatelessWidget {
   List<Widget> buildRings(BuildContext context, TowersState state,
       double maxWidth, double maxHeight) {
     final result = <Widget>[];
-    const duration = Duration(seconds: 1);
     result.addAll(state.board[0].mapIndexed((index, element) {
       return AnimatedPositioned(
         curve: Curves.linearToEaseOut,
@@ -86,7 +86,7 @@ class Towers extends StatelessWidget {
         height: element.height * maxHeight,
         bottom: getBottomPadding(index, maxHeight, state.board[0].toList()),
         child: buildRing(element, maxWidth, maxHeight),
-        duration: duration,
+        duration: moveDuration,
       );
     }));
     result.addAll(state.board[1].mapIndexed((index, element) {
@@ -98,7 +98,7 @@ class Towers extends StatelessWidget {
         height: element.height * maxHeight,
         bottom: getBottomPadding(index, maxHeight, state.board[1].toList()),
         child: buildRing(element, maxWidth, maxHeight),
-        duration: duration,
+        duration: moveDuration,
       );
     }));
     result.addAll(state.board[2].mapIndexed((index, element) {
@@ -110,7 +110,7 @@ class Towers extends StatelessWidget {
         height: element.height * maxHeight,
         bottom: getBottomPadding(index, maxHeight, state.board[2].toList()),
         child: buildRing(element, maxWidth, maxHeight),
-        duration: duration,
+        duration: moveDuration,
       );
     }));
     return result;

@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:towers_desktop/screens/game/board/controller.dart';
 import 'package:towers_desktop/screens/game/state.dart';
 import 'package:towers_desktop/towers/best_strategy.dart';
+import 'package:towers_desktop/utils.dart';
 
 class GameCubit extends Cubit<GamePageState> {
   @visibleForTesting
@@ -44,7 +45,7 @@ class GameCubit extends Cubit<GamePageState> {
     final bestMovesStream = Stream.fromFutures(_bestStrategy
         .moveTower(0, 2, boardController.ringsCount, 1)
         .mapIndexed((index, value) =>
-            Future.delayed(Duration(seconds: (index + 1) * 2), () => value)));
+            Future.delayed(Duration(milliseconds: moveDuration.inMilliseconds*(index+1)), () => value)));
     _subscription = bestMovesStream.listen((move) {
       boardController.move(move);
     });
